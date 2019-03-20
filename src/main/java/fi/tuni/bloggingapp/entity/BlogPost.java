@@ -1,6 +1,5 @@
 package fi.tuni.bloggingapp.entity;
-
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,7 +16,7 @@ public class BlogPost {
 	private long id;
 	
 	@Column(name="postDate")
-	private LocalDate date;
+	private LocalDateTime date;
 	
 	@Column(name="author")
 	private String author;
@@ -31,17 +30,17 @@ public class BlogPost {
 	public BlogPost() {}
 	
 	public BlogPost(String author, String title, String content) {
-		this.date = LocalDate.now();
+		this.date = LocalDateTime.now();
 		this.author = author;
 		this.title = title;
 		this.content = content;
 	}
 
-	public LocalDate getDate() {
+	public LocalDateTime getDate() {
 		return date;
 	}
 
-	public void setDate(LocalDate date) {
+	public void setDate(LocalDateTime date) {
 		this.date = date;
 	}
 
