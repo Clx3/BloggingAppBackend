@@ -30,8 +30,8 @@ public class BlogPost {
 	
 	public BlogPost() {}
 	
-	public BlogPost(LocalDate date, String author, String title, String content) {
-		this.date = date;
+	public BlogPost(String author, String title, String content) {
+		this.date = LocalDate.now();
 		this.author = author;
 		this.title = title;
 		this.content = content;

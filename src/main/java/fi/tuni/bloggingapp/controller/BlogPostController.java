@@ -29,10 +29,10 @@ public class BlogPostController {
         BlogPost newBlogPost;
 
         try {
-            newBlogPost = blogRepo.save(post);
+            newBlogPost = blogRepo.save(new BlogPost(post.getAuthor(), post.getTitle(), post.getContent()));
             return newBlogPost;
         } catch (DataIntegrityViolationException e) {
-            throw new Exception("vituiks meni");
+            throw new Exception(e.getStackTrace().toString());
         }
     }
 }
