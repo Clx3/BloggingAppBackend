@@ -30,16 +30,16 @@ public class UserController {
 	}
 	
 	@RequestMapping(value = "users/", method = RequestMethod.PUT)
-	public User createUser(@RequestBody User user) throws UsernameAlreadyTakenException {
-		User createdUser;
-		
-		try {
-			createdUser = userRepo.save(user);
-			
-			return createdUser;
-		} catch(DataIntegrityViolationException  e) {
-			throw new UsernameAlreadyTakenException("Username is already in use!");			
-		}
+		public User createUser(@RequestBody User user) throws UsernameAlreadyTakenException {
+			User createdUser;
+
+			try {
+				createdUser = userRepo.save(user);
+
+				return createdUser;
+			} catch(DataIntegrityViolationException  e) {
+				throw new UsernameAlreadyTakenException("Username is already in use!");
+			}
 		
 	}
 	
