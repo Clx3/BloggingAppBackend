@@ -10,3 +10,10 @@ CREATE TABLE blogPost (
 	content VARCHAR(3000),
 	PRIMARY KEY(id)
 );
+
+CREATE TABLE user (
+	id BIGINT(20) NOT NULL,
+    username VARCHAR(20) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    PRIMARY KEY (id)
+);
