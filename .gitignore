@@ -2,7 +2,6 @@
 /.classpath
 /.project
 /myrestfulapp.iml
-
 \.idea/
 
-frontend/build/
+frontend/
