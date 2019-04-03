@@ -62,9 +62,14 @@ public class BlogPostController {
         }
     }
 
-    @RequestMapping(value = "blog/comments/{blogId]", method = RequestMethod.GET)
-    public List<Comment> getComments(@PathVariable long blogId){
-        return commentRepo.findAllByPostId(blogId);
+    @RequestMapping(value = "blog/comments/{postId}", method = RequestMethod.GET)
+    public List<Comment> getComments(@PathVariable long postId){
+        return commentRepo.findAllByPostId(postId);
+    }
+
+    @RequestMapping(value = "blog/comments/", method = RequestMethod.GET)
+    public List<Comment> getAllComments(){
+        return commentRepo.findAll();
     }
 
 }
