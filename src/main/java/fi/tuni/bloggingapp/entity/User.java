@@ -11,6 +11,7 @@ import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
+import fi.tuni.bloggingapp.security.UserType;
 
 @Entity
 @Table(name = "user", uniqueConstraints = {@UniqueConstraint(columnNames = "username")})
@@ -31,6 +32,10 @@ public class User {
 	@NotEmpty
 	@JsonProperty(access = Access.WRITE_ONLY)
 	private String password;
+
+	@Column(name="isAdmin")
+	@NotNull
+	private boolean isAdmin;
 	
 	public User() {}
 	
@@ -55,6 +60,16 @@ public class User {
 		this.password = password;
 	}
 
-	
+	public void setIsAdmin(boolean admin) {
+		isAdmin = false;
+	}
+
+	public UserType getIsAdmin(){
+		if(isAdmin){
+			return UserType.admin;
+		} else {
+			return UserType.user;
+		}
+	}
 	
 }

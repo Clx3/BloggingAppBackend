@@ -11,6 +11,6 @@ public interface TokenRepository {
 
     public boolean contains(String token);
 
-    public String addNewToken();
+    public String addNewToken(UserType type);
 
 }

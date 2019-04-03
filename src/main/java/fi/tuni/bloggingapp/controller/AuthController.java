@@ -4,6 +4,7 @@ import com.google.gson.JsonObject;
 import fi.tuni.bloggingapp.entity.User;
 import fi.tuni.bloggingapp.repository.UserRepository;
 import fi.tuni.bloggingapp.security.TokenRepository;
+import fi.tuni.bloggingapp.security.UserType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -32,8 +33,13 @@ public class AuthController {
             /* EBIN :-D */
             if(user.getPassword().contentEquals(userFromDatabase.getPassword())){
                 JsonObject userWithToken = new JsonObject();
-                userWithToken.addProperty("token", tokens.addNewToken());
+                userWithToken.addProperty("token", tokens.addNewToken(userFromDatabase.getIsAdmin()));
                 userWithToken.addProperty("user", userFromDatabase.getUsername());
+                if(userFromDatabase.getIsAdmin() == UserType.admin){
+                    userWithToken.addProperty("admin", true);
+                } else {
+                    userWithToken.addProperty("admin", false);
+                }
 
                 return userWithToken.toString();
             }

@@ -29,9 +29,9 @@ public class TokenService implements TokenRepository {
     }
 
     @Override
-    public String addNewToken() {
+    public String addNewToken(UserType type) {
         Token newToken = new Token();
-        newToken.setToken(getSaltString());
+        newToken.setToken(getSaltString(), type);
         tokens.add(newToken);
         return newToken.getToken();
 
