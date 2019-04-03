@@ -52,6 +52,10 @@ public class BlogPost {
 		this.author = author;
 	}
 
+	public long getId(){
+		return this.id;
+	}
+
 	public String getTitle() {
 		return title;
 	}
