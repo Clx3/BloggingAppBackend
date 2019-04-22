@@ -19,4 +19,4 @@ CREATE TABLE user (
     PRIMARY KEY (id)
 );
 
-INSERT INTO user (id, username, password, isAdmin) VALUES (1, 'admin', 'admin', true);
+INSERT INTO user (id, username, password, isAdmin) VALUES (1, 'admin', '21232f297a57a5a743894a0e4a801fc3', true);

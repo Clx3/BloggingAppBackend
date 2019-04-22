@@ -18,17 +18,37 @@ import org.springframework.web.bind.annotation.RestController;
 import fi.tuni.bloggingapp.entity.User;
 import fi.tuni.bloggingapp.repository.UserRepository;
 
+/**
+ * Class that handles creating new users.
+ *
+ * @author Teemu Salminen
+ * @version 2019.04.22
+ * @since 0.1
+ */
 @RestController
 public class UserController {
-	
+
+	/**
+	 * Repository to use for database stored users
+	 */
 	@Autowired
 	private UserRepository userRepo;
-			
+
+	/**
+	 * Return all users, excluding their passwords.
+	 * @return all users
+	 */
 	@RequestMapping(value = "users/", method = RequestMethod.GET)
 	public List<User> getAllUsers() {
 		return userRepo.findAll();
 	}
-	
+
+	/**
+	 * Adds a new user to database, if username isn't already taken.
+	 * @param user User to add.
+	 * @return User added to db
+	 * @throws UsernameAlreadyTakenException thrown when username is taken
+	 */
 	@RequestMapping(value = "users/", method = RequestMethod.PUT)
 		public User createUser(@RequestBody User user) throws UsernameAlreadyTakenException {
 			User createdUser;
@@ -43,7 +63,9 @@ public class UserController {
 		
 	}
 
-	
+	/**
+	 * Thrown when username is taken
+	 */
 	@ResponseStatus(code = HttpStatus.CONFLICT)
 	class UsernameAlreadyTakenException extends AuthenticationException {
 		
@@ -53,14 +75,7 @@ public class UserController {
 		
 	}
 	
-	@ResponseStatus(code = HttpStatus.UNAUTHORIZED)
-	class UserAuthenticationException extends AuthenticationException {
-		
-		public UserAuthenticationException(String msg) {
-			super(msg);
-		}
-		
-	}
+
 
 
 

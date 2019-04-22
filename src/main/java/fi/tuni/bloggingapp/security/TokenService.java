@@ -7,8 +7,20 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * Service for handling tokens. Keeps a list of valid tokens and removes unused token periodically.
+ * Tokens are only saved to memory, and not in a permanent store.
+ *
+ * @author Joonas Salojarvi
+ * @version 2019.04.22
+ * @since 0.1
+ */
 @Service
 public class TokenService implements TokenRepository {
+
+    /**
+     * All valid tokens.
+     */
     List<Token> tokens;
 
     public TokenService(){
@@ -20,6 +32,11 @@ public class TokenService implements TokenRepository {
         return null;
     }
 
+    /**
+     * Checks if requested token is found in tokens list. If found, return boolean and refreshes the found token.
+     * @param a Token to search for
+     * @return boolean
+     */
     @Override
     public boolean contains(String a) {
         for(Token b : tokens){
@@ -30,6 +47,11 @@ public class TokenService implements TokenRepository {
         return false;
     }
 
+    /**
+     * Checks if the token is valid and has admin rights.
+     * @param a Token
+     * @return boolean
+     */
     @Override
     public boolean containsAdmin(String a) {
         for(Token b : tokens){
@@ -40,6 +62,11 @@ public class TokenService implements TokenRepository {
         return false;
     }
 
+    /**
+     * Add new token to token store and return is as a string.
+     * @param type UserType
+     * @return New token
+     */
     @Override
     public String addNewToken(UserType type) {
         Token newToken = new Token();
@@ -49,6 +76,10 @@ public class TokenService implements TokenRepository {
 
     }
 
+    /**
+     * Generate new token
+     * @return Token
+     */
     protected String getSaltString() {
         String SALTCHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
         StringBuilder salt = new StringBuilder();
@@ -62,6 +93,9 @@ public class TokenService implements TokenRepository {
 
     }
 
+    /**
+     * Delete old tokens. Called very 5 minutes, deletes token that are older than 5 minutes.
+     */
     @Scheduled(fixedRate = (1000 * 60 * 5))
     public void deleteOldTokens() {
         tokens.removeIf((token -> {

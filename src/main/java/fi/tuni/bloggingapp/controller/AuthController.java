@@ -11,6 +11,13 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.naming.AuthenticationException;
 
+/**
+ * Handles authorization requests and token refreshing.
+ *
+ * @author Joonas Salojarvi
+ * @version 2019.04.22
+ * @since 0.1
+ */
 @RestController
 public class AuthController {
 
@@ -56,6 +63,13 @@ public class AuthController {
         return null;
     }
 
+    /**
+     * Refreshes given token.
+     *
+     * @param token Token to refresh
+     * @return string / error
+     * @throws InvalidTokenException
+     */
     @RequestMapping("/tokenRefresh")
     public String test(@RequestHeader(value="Token") String token) throws InvalidTokenException{
         if(tokens.contains(token))
@@ -73,6 +87,13 @@ public class AuthController {
 
     }
 
+    /**
+     * Thrown when credentials are wrong.
+     *
+     * @author Joonas Salojarvi
+     * @version 2019.04.22
+     * @since 0.1
+     */
     @ResponseStatus(code = HttpStatus.UNAUTHORIZED)
     class UserAuthenticationException extends AuthenticationException {
 
@@ -82,6 +103,13 @@ public class AuthController {
 
     }
 
+    /**
+     * Thrown if token is expired or otherwise invalid.
+     *
+     * @author Joonas Salojarvi
+     * @version 2019.04.22
+     * @since 0.1
+     */
     @ResponseStatus(code = HttpStatus.UNAUTHORIZED)
     class InvalidTokenException extends AuthenticationException {
 

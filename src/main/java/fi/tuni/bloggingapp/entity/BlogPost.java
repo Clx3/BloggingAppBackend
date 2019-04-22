@@ -7,23 +7,45 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+/**
+ * Entity used by BlogPostRepository, that is saved to database.
+ *
+ * @author Teemu Salminen & Joonas Salojarvi
+ * @version 2019.04.22
+ * @since 0.1
+ */
 @Entity
 @Table(name = "blogPost")
 public class BlogPost {
-	
+
+	/**
+	 * Automatically generated id
+	 */
 	@Id
 	@GeneratedValue
 	private long id;
-	
+
+	/**
+	 * Date and time, when the post was added
+	 */
 	@Column(name="postDate")
 	private LocalDateTime date;
-	
+
+	/**
+	 * Author of blog post
+	 */
 	@Column(name="author")
 	private String author;
-	
+
+	/**
+	 * Title of blog post
+	 */
 	@Column(name="title")
 	private String title;
-	
+
+	/**
+	 * Content of blog post
+	 */
 	@Column(name="content")
 	private String content;
 	

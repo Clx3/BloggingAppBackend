@@ -12,6 +12,13 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import java.util.Arrays;
 import java.util.Collections;
 
+/**
+ * Configure all application settings.
+ *
+ * @author Teemu Salminen & Joonas Salojärvi
+ * @version 2019.04.22
+ * @since 0.1
+ */
 @EnableScheduling
 @Configuration
 public class MyConfiguration implements WebMvcConfigurer {

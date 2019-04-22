@@ -17,23 +17,51 @@ import org.springframework.web.client.HttpClientErrorException;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Handles requests regarding blog posts. Handles comment requests also.
+ *
+ * @author Joonas Salojarvi & Teemu Salminen
+ * @version 2019.04.22
+ * @since 0.1
+ */
 @RestController
 public class BlogPostController {
 
+    /**
+     * Autowired repo for blog posts
+     */
     @Autowired
     private BlogPostRepository blogRepo;
 
+    /**
+     * Autowired repo for comments
+     */
     @Autowired
     private CommentRepository commentRepo;
 
+    /**
+     * Autowired repo for tokens. Used to check auth.
+     */
     @Autowired
     private TokenService tokenService;
 
+    /**
+     * Method for getting all blog posts.
+     * @return all blog posts
+     */
     @RequestMapping(value = "blog/posts", method = RequestMethod.GET)
     public List<BlogPost> getAllUsers() {
         return blogRepo.findAll();
     }
 
+    /**
+     * Method for adding blog posts.
+     *
+     * @param post Blog post to add to db
+     * @param token User token, to check if user is authorized
+     * @return BlogPost added
+     * @throws Exception unauthorized user or data integrity issue
+     */
     @RequestMapping(value = "blog/add", method = RequestMethod.PUT)
     public BlogPost addBlogPost(@RequestBody BlogPost post, @RequestHeader(value="Token") String token) throws Exception {
         if(!(tokenService.containsAdmin(token))){
@@ -50,8 +78,14 @@ public class BlogPostController {
         }
     }
 
+    /**
+     * Get a single blog post.
+     *
+     * @param blogId ID of blog post
+     * @return blog post or null, if not found
+     */
     @RequestMapping(value = "blog/{blogId}", method = RequestMethod.GET)
-    public BlogPost getBeersByIds(@PathVariable long blogId) throws Exception{
+    public BlogPost getBeersByIds(@PathVariable long blogId){
         Optional<BlogPost> optPost = blogRepo.findById(blogId);
         if(optPost.isPresent()){
             return optPost.get();
@@ -60,8 +94,13 @@ public class BlogPostController {
         }
     }
 
+    /**
+     * Method to add comments. Any user is able to comments, so doesn't check for auth.
+     * @param post Comment to be added
+     * @return added comment
+     */
     @RequestMapping(value = "blog/comments/add", method = RequestMethod.PUT)
-    public Comment addComment(@RequestBody Comment post) throws Exception {
+    public Comment addComment(@RequestBody Comment post) {
         Comment newComment;
 
         try {
@@ -72,16 +111,32 @@ public class BlogPostController {
         }
     }
 
+    /**
+     * Request all comments for a single blog post.
+     * @param postId Blog posts ID to search comments for
+     * @return All comments for given blog post
+     */
     @RequestMapping(value = "blog/comments/{postId}", method = RequestMethod.GET)
     public List<Comment> getComments(@PathVariable long postId){
         return commentRepo.findAllByPostId(postId);
     }
 
+    /**
+     * Get all comments and return them
+     * @return all comments
+     */
     @RequestMapping(value = "blog/comments/", method = RequestMethod.GET)
     public List<Comment> getAllComments(){
         return commentRepo.findAll();
     }
 
+    /**
+     * Exception to throw when user isn't authorized for a request.
+     *
+     * @author Joonas Salojarvi
+     * @version 2019.04.22
+     * @since 0.1
+     */
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     class UnauthorizedTokenException extends Exception{
         public UnauthorizedTokenException(){
