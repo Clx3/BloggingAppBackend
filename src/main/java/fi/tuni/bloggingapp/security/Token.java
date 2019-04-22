@@ -15,6 +15,7 @@ public class Token {
 
     public void setToken(String token, UserType type){
         this.token = token;
+        this.setType(type);
         refresh();
     }
 
