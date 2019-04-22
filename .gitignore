@@ -9,3 +9,7 @@ frontend/build
 bin/
 
 BloggingApp0\.1\.rar
+
+*.rar
+
+frontend/
