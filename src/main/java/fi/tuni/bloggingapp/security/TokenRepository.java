@@ -11,6 +11,8 @@ public interface TokenRepository {
 
     public boolean contains(String token);
 
+    public boolean containsAdmin(String a);
+
     public String addNewToken(UserType type);
 
 }

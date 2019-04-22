@@ -42,7 +42,7 @@ public class UserController {
 			}
 		
 	}
-	
+
 	
 	@ResponseStatus(code = HttpStatus.CONFLICT)
 	class UsernameAlreadyTakenException extends AuthenticationException {

@@ -3,6 +3,7 @@ package fi.tuni.bloggingapp.security;
 public class Token {
     private String token;
     private UserType type;
+    private long refreshed;
 
     public Token(){
 
@@ -14,6 +15,7 @@ public class Token {
 
     public void setToken(String token, UserType type){
         this.token = token;
+        refresh();
     }
 
     public boolean equals(String requested) {
@@ -30,5 +32,14 @@ public class Token {
     public void setType(UserType type){
         this.type = type;
     }
+
+    public void refresh(){
+        refreshed = System.currentTimeMillis();
+    }
+
+    public long getLatestRefresh(){
+        return refreshed;
+    }
+
 
 }

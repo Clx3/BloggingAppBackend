@@ -20,7 +20,12 @@ public class AuthController {
     @Autowired
     private UserRepository users;
 
-
+    /**
+     * Method for handling authorization. Response is a token, if the credentials are ok.
+     * @param user User info
+     * @return response token
+     * @throws UserAuthenticationException Wrong user info
+     */
     @RequestMapping("/auth")
     public String auth(@RequestBody User user) throws UserAuthenticationException{
         if(user != null) {
@@ -44,7 +49,7 @@ public class AuthController {
                 return userWithToken.toString();
             }
             else{
-                throw new UserAuthenticationException("Väärä salis vitun runkku");
+                throw new UserAuthenticationException("Wrong password");
             }
 
         }
@@ -56,7 +61,7 @@ public class AuthController {
         if(tokens.contains(token))
             return "authorized";
         else
-            throw new InvalidTokenException("Väärä token vitun homo");
+            throw new InvalidTokenException("Invalid token");
     }
 
     @ResponseStatus(code = HttpStatus.CONFLICT)

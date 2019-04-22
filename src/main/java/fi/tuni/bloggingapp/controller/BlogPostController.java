@@ -5,11 +5,14 @@ import fi.tuni.bloggingapp.entity.Comment;
 import fi.tuni.bloggingapp.entity.User;
 import fi.tuni.bloggingapp.entity.Comment;
 import fi.tuni.bloggingapp.repository.CommentRepository;
+import fi.tuni.bloggingapp.security.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import fi.tuni.bloggingapp.repository.BlogPostRepository;
+import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.List;
 import java.util.Optional;
@@ -23,13 +26,20 @@ public class BlogPostController {
     @Autowired
     private CommentRepository commentRepo;
 
+    @Autowired
+    private TokenService tokenService;
+
     @RequestMapping(value = "blog/posts", method = RequestMethod.GET)
     public List<BlogPost> getAllUsers() {
         return blogRepo.findAll();
     }
 
     @RequestMapping(value = "blog/add", method = RequestMethod.PUT)
-    public BlogPost addBlogPost(@RequestBody BlogPost post) throws Exception {
+    public BlogPost addBlogPost(@RequestBody BlogPost post, @RequestHeader(value="Token") String token) throws Exception {
+        if(!(tokenService.containsAdmin(token))){
+            throw new UnauthorizedTokenException();
+        }
+
         BlogPost newBlogPost;
 
         try {
@@ -70,6 +80,13 @@ public class BlogPostController {
     @RequestMapping(value = "blog/comments/", method = RequestMethod.GET)
     public List<Comment> getAllComments(){
         return commentRepo.findAll();
+    }
+
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    class UnauthorizedTokenException extends Exception{
+        public UnauthorizedTokenException(){
+            super("Invalid token");
+        }
     }
 
 }

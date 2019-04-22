@@ -1,5 +1,6 @@
 package fi.tuni.bloggingapp.security;
 
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -23,7 +24,18 @@ public class TokenService implements TokenRepository {
     public boolean contains(String a) {
         for(Token b : tokens){
             if(b.equals(a))
+                b.refresh();
                 return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean containsAdmin(String a) {
+        for(Token b : tokens){
+            if(b.equals(a) && b.getType() == UserType.admin)
+                b.refresh();
+            return true;
         }
         return false;
     }
@@ -48,6 +60,17 @@ public class TokenService implements TokenRepository {
         String saltStr = salt.toString();
         return saltStr;
 
+    }
+
+    @Scheduled(fixedRate = (1000 * 60 * 5))
+    public void deleteOldTokens() {
+        tokens.removeIf((token -> {
+            if(token.getLatestRefresh() <= System.currentTimeMillis() - (1000 * 60 * 5)){
+                System.out.println("Removed token: " + token.getToken());
+                return true;
+            } else
+                return false;
+        }));
     }
 
 
