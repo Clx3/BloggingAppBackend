@@ -17,6 +17,8 @@ public class Like {
 	@Column(name = "blogpostId")
 	private long blogpostId;
 
+	public Like() {}
+	
 	public Like(long blogpostId) {
 		this.blogpostId = blogpostId;
 	}
