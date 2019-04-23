@@ -93,7 +93,24 @@ public class BlogPostController {
             return null;
         }
     }
-
+    
+    /**
+     * Request mapping method to delete a blogpost and all comments added to it.
+     * 
+     * @param blogId Id of the blogpost to be deleted.
+     */
+    @RequestMapping(value = "blog/{blogId}", method = RequestMethod.DELETE)
+    public void deleteBlogPost(@PathVariable long blogId) {
+    	/* Find all comments and delete them first */
+    	List<Comment> comments = commentRepo.findAllByPostId(blogId);
+    	
+    	if(comments.size() > 0)
+    		commentRepo.deleteAll(comments);
+    	
+    	/* Deleting the blogpost */
+    	blogRepo.deleteById(blogId);
+    }
+    
     /**
      * Method to add comments. Any user is able to comments, so doesn't check for auth.
      * @param post Comment to be added
