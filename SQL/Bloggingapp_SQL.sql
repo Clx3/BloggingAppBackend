@@ -20,3 +20,12 @@ CREATE TABLE user (
 );
 
 INSERT INTO user (id, username, password, isAdmin) VALUES (1, 'admin', '21232f297a57a5a743894a0e4a801fc3', true);
+
+CREATE TABLE blog_like (
+	id BIGINT(20) NOT NULL,
+    userId BIGINT(20) NOT NULL,
+    blogpostID BIGINT(20) NOT NULL,
+    FOREIGN KEY (userId) REFERENCES user(id),
+    FOREIGN KEY (blogpostId) REFERENCES blogPost(id),
+    PRIMARY KEY(id)
+);
