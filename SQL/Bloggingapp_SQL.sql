@@ -23,7 +23,7 @@ INSERT INTO user (id, username, password, isAdmin) VALUES (1, 'admin', '21232f29
 
 CREATE TABLE blog_like (
 	id BIGINT(20) NOT NULL,
-    blogpostID BIGINT(20) NOT NULL,
+    blogpostId BIGINT(20) NOT NULL,
     FOREIGN KEY (blogpostId) REFERENCES blogPost(id),
     PRIMARY KEY(id)
 );
