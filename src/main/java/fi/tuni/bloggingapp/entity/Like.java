@@ -14,23 +14,11 @@ public class Like {
 	@GeneratedValue
 	private long id;
 	
-	@Column(name = "userId")
-	private long userId;
-	
 	@Column(name = "blogpostId")
 	private long blogpostId;
 
-	public Like(long userId, long blogpostId) {
-		this.userId = userId;
+	public Like(long blogpostId) {
 		this.blogpostId = blogpostId;
-	}
-
-	public long getUserId() {
-		return userId;
-	}
-
-	public void setUserId(long userId) {
-		this.userId = userId;
 	}
 
 	public long getBlogpostId() {
