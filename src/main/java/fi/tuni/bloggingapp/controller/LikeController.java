@@ -1,6 +1,7 @@
 package fi.tuni.bloggingapp.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -20,8 +21,9 @@ public class LikeController {
 		return likeRepository.save(like);
 	}
 	
-	public long countAllLikesByBlogPostId() {
-		return 0;
+	@RequestMapping(value = "like/count/{blogpostId}", method = RequestMethod.GET)
+	public long countAllLikesByBlogPostId(@PathVariable("blogpostId") long blogpostId) {
+		return likeRepository.countByblogpostId(blogpostId);
 	}
 
 }
