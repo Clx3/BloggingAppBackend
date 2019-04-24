@@ -1,23 +1,31 @@
 import React, {Component} from 'react';
-import { Card, Container } from "react-bootstrap";
+import { Card, Container, Button, Row, Col} from "react-bootstrap";
 import axios from 'axios';
 import "./BloggingApp.css";
 import { withRouter } from 'react-router-dom';
+import User from '../../utils/User';
+import {notificationSuccess, notificationError} from '../../components/Notification'
 
 /**
  * TODO: Route this page so this and all of its child pages/components can only
  * be viewed/rendered if the user is authenticated.
  */
 
+const MAXIMUM_CONTENT_LENGTH = 350;
+
 class BloggingApp extends Component {
     constructor(props) {
         super(props);
+
+        this.state = {
+            user: new User(),
+            allPosts: []
+        }
+
         this.renderPosts = this.renderPosts.bind(this);
         this.fetchPosts = this.fetchPosts.bind(this);
         this.handleRedirect = this.handleRedirect.bind(this);
-        this.state = {
-            allPosts: []
-        }
+        this.deleteBlogpost = this.deleteBlogpost.bind(this);
     }
 
     componentWillMount(){
@@ -32,9 +40,38 @@ class BloggingApp extends Component {
 
     handleRedirect = event => {
         console.log(event.target.id)
-        this.props.history.push('blog/' + event.target.id);
+        event.preventDefault();
+        this.props.history.push('/blog/' + event.target.id);
     }
+
+    /**
+     * Deletes a blog post with wanted id
+     * 
+     * @param {} id 
+     */
+    deleteBlogpost(id) {
+      this.state.user.deleteBlogpostAdmin(id)
+      .then((response) => {
+        if(response.status === 200) {
+          notificationSuccess("Blog post deleted succesfully!");
+          this.fetchPosts();
+        }
+      }).catch((error) => {
+        console.log(error);
+        notificationError("Error while deleting blog post!");
+      });
+    }
+
     renderPosts(){
+
+        const createAdminButtons = (blogpostId) => {
+          if(this.state.user.isAdminUser())
+            return (
+              <Button variant="danger" onClick={() => this.deleteBlogpost(blogpostId)}>Delete</Button>
+            );
+          else
+            return '';
+        }
         
         const kona = this.state.allPosts.map((d) => (
         <Container id="blogContainer">
@@ -44,9 +81,16 @@ class BloggingApp extends Component {
                 <Card.Title>{d.title}</Card.Title>
                 <Card.Subtitle className="mb-2 text-muted">{d.author}</Card.Subtitle>
                 <Card.Text>
-                {d.content}
+                {d.content.length <= MAXIMUM_CONTENT_LENGTH ? d.content : d.content.slice(0, MAXIMUM_CONTENT_LENGTH) + '...'}
                 </Card.Text>
-                <Card.Link href='#' id={d.id} onClick={this.handleRedirect}>View comments</Card.Link>
+                <Row>
+                  <Col>
+                    <Button id={d.id} onClick={this.handleRedirect} variant="primary">View</Button>
+                  </Col>
+                  <Col className="text-right">
+                    {createAdminButtons(d.id)}
+                  </Col>
+                </Row>
             </Card.Body>
         </Card>
         </Container>
