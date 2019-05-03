@@ -13,3 +13,5 @@ BloggingApp0\.1\.rar
 *.rar
 
 frontend/
+
+src/main/resources/application\.properties
