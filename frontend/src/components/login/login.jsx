@@ -5,11 +5,11 @@ import { Redirect } from 'react-router-dom'
 import {BACKEND_URL} from '../../GlobalConfig';
 import {withRouter} from "react-router-dom";
 import Cookies from "js-cookie";
+import md5 from 'js-md5';
 
 class Login extends Component {
   constructor(props) {
     super(props);
-
     this.state = {username: "", password: ""};
     this.handleSubmit = this.handleSubmit.bind(this);
     this.validateForm = this.validateForm.bind(this);
@@ -23,8 +23,6 @@ class Login extends Component {
       && this.state.password.length > 0;
   }
 
-
-
   handleChange = event => {
     this.setState({[event.target.id]: event.target.value});
   };
@@ -34,9 +32,9 @@ class Login extends Component {
 
     let requestBody = {
       username: this.state.username,
-      password: this.state.password
+      password: md5(this.state.password)
     };
-
+    
     let parent = this;
 
     fetch(BACKEND_URL + 'auth/', {

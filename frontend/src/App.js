@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import { BrowserRouter, Switch, Route, Redirect} from 'react-router-dom'
+import { HashRouter, Switch, Route, Redirect} from 'react-router-dom'
+import {ToastContainer} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import PrivateRoute from './components/PrivateRoute'
 import Navigation from "./components/Navigation";
@@ -21,9 +23,10 @@ class App extends Component {
 
   render() {
     return (
-      <BrowserRouter>
+      <HashRouter>
         <div>
           <Navigation/>
+          <ToastContainer />
           <Switch>
             <Route exact path = '/login' component = {LoginAndSignup}/>  
             <Route exact path = '/' component = {BloggingApp}/>}
@@ -31,7 +34,7 @@ class App extends Component {
             <Route exact path = '/blog/:id' component ={SingleBlogPage}/>
           </Switch>
         </div>
-      </BrowserRouter>
+      </HashRouter>
     );
   }
 }

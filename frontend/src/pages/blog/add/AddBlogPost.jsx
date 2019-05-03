@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Form, Container, Button} from 'react-bootstrap';
+import {Form, Container, Button, Row} from 'react-bootstrap';
 
 import axios from 'axios';
 
@@ -14,6 +14,8 @@ class AddBlogPost extends Component {
           blogPostAuthor: "",
           blogPostContent: ""
         }
+
+        console.log(props);
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -46,8 +48,10 @@ class AddBlogPost extends Component {
 
     render() {
         return(
-            <div id="addModifyBeer">
-            <Container>
+            <Container id="add-blogpost-container" className="rounded">
+                <Row className="justify-content-center">
+                  <h1 id="header1">Create blog post</h1>
+                </Row>
                 <Form onSubmit={this.handleSubmit}>
                   <Form.Group controlId="blogPostTitle">
                       <Form.Label>Title</Form.Label>
@@ -75,12 +79,11 @@ class AddBlogPost extends Component {
                         onChange={this.handleChange}
                       />
                   </Form.Group>
-                  <div id="buttons">
+                  <div id="buttons" className="pb-3">
                     <Button variant="success" type="submit">Add blog post</Button>
                   </div>
                 </Form>
               </Container>
-            </div>
         );
     }
 
