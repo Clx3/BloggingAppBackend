@@ -52,6 +52,7 @@ public class UserController {
 	@RequestMapping(value = "users/", method = RequestMethod.PUT)
 		public User createUser(@RequestBody User user) throws UsernameAlreadyTakenException {
 			User createdUser;
+			user.setIsAdmin(false);
 
 			try {
 				createdUser = userRepo.save(user);

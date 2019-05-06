@@ -39,9 +39,10 @@ public class User {
 	
 	public User() {}
 	
-	public User(String username, String password) {
+	public User(String username, String password, boolean isAdmin) {
 		this.username = username;
 		this.password = password;
+		this.isAdmin = isAdmin;
 	}
 
 	public long getId() {
@@ -65,7 +66,7 @@ public class User {
 	}
 
 	public void setIsAdmin(boolean admin) {
-		isAdmin = false;
+		this.isAdmin = admin;
 	}
 
 	public UserType getIsAdmin(){
